@@ -5,7 +5,7 @@
                 Lista de productos
             </h2>
 
-            <x-button-link class="ml-auto" href="{{route('admin.products.create')}}">
+            <x-button-link dusk="agregarProducto" class="ml-auto" href="{{route('admin.products.create')}}">
                 Agregar producto
             </x-button-link>
         </div>
@@ -16,25 +16,30 @@
             <x-jet-input class="w-full"
                          wire:model="search"
                          type="text"
-                         placeholder="Introduzca el nombre del producto a buscar" />
+                         placeholder="Introduzca el nombre del producto a buscar" dusk="buscador"/>
         </div>
 
         @if($products->count())
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Nombre
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Categoría
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Estado
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Precio
                     </th>
+
                     <th scope="col" class="relative px-6 py-3">
                         <span class="sr-only">Editar</span>
                     </th>
@@ -46,7 +51,9 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10 object-cover">
-                                    <img class="h-10 w-10 rounded-full" src="{{ $product->images->count() ? Storage::url($product->images->first()->url) : 'img/default.jpg'  }}" alt="">
+                                    <img class="h-10 w-10 rounded-full"
+                                         src="{{ $product->images->count() ? Storage::url($product->images->first()->url) : 'img/default.jpg'  }}"
+                                         alt="">
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">
@@ -69,7 +76,8 @@
                             {{ $product->price }} &euro;
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+                            <a href="{{ route('admin.products.edit', $product) }}"
+                               class="text-indigo-600 hover:text-indigo-900">Editar</a>
                         </td>
                     </tr>
                 @endforeach
