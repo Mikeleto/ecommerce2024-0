@@ -1,6 +1,23 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+/* FlexSlider */
+@import 'flexslider/flexslider.css';
+
+/* Dropzone */
+@import 'dropzone/dist/min/dropzone.min.css';
+
+/* CKEditor */
+@import 'ckeditor/styles.css';
+
+/* Font Awesome */
+@import 'fontawesome-free/css/all.min.css';
+
+/* Glider.js */
+@import 'glider-js/glider.min.css';
+
+/* SweetAlert2 */
+@import 'sweetalert2/dist/sweetalert2.min.css';
 
 @layer components {
     .container-menu {
