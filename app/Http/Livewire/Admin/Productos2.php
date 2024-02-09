@@ -36,6 +36,14 @@ class Productos2 extends Component
     public $sortBrandField = 'name';
     public $sortDirection = 'asc';
 
+    public $nameFilter;
+    public $categoryFilter;
+    public $brandFilter;
+    public $maxPriceFilter;
+    public $minPriceFilter;
+    public $maxCreatedFilter;
+    public $minCreatedFilter;
+
     public function sortBy($field){
         if($this->sortField === $field){
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -80,8 +88,22 @@ class Productos2 extends Component
     }
 
     
-
-  
+    public function filterColors()
+    {
+        $this->resetPage(); // Reiniciar la paginación
+    
+        // Realizar la consulta de productos con el filtro de colores
+        $products = Product::where('name', 'LIKE', "%{$this->search}%")
+            ->whereHas('colors', function ($query) {
+                // Aquí puedes agregar lógica específica para filtrar por colores
+                // Por ejemplo, podrías usar una condición como $query->where('color', '=', 'rojo');
+            })
+            ->orderBy($this->sortField, $this->sortDirection)
+            ->paginate($this->perPage);
+    
+        // Actualizar la variable de productos en el estado del componente
+        $this->products = $products;
+    }
 
     public function updatingSearch()
     {
@@ -92,7 +114,36 @@ class Productos2 extends Component
 
     public function render()
     {
-        $products = Product::where('name', 'LIKE', "%{$this->search}%")
+        $query = Product::query();
+        if($this->nameFilter){
+            $query->where('name', 'LIKE', "%{$this->nameFilter}%");
+        }
+
+        if($this->categoryFilter){
+            $query->whereHas('subcategory.category', function($q){
+                $q->where('name', 'LIKE', "%{$this->categoryFilter}%");
+            });
+           
+        }
+        if($this->brandFilter){
+            $query->whereHas('brand', function($q){
+                $q->where('name', 'LIKE', "%{$this->brandFilter}%");
+            });
+           
+        }
+        if($this->maxPriceFilter){
+            $query->where('price', '<=', "$this->maxPriceFilter");
+        }
+        if($this->minPriceFilter){
+            $query->where('price', '>=', "$this->minPriceFilter");
+        }
+        if($this->maxCreatedFilter){
+            $query->where('created_at', '<=', "$this->maxCreatedFilter");
+        }
+        if($this->minCreatedFilter){
+            $query->where('created_at', '>=', "$this->minCreatedFilter");
+        }
+        $products = $query
         ->orderBy($this->sortField, $this->sortDirection)
         
     ->paginate($this->perPage);
@@ -105,7 +156,6 @@ class Productos2 extends Component
 
         
     
-        
     
         $colorProduct = ColorProduct::all();
         $color = Color::all();
@@ -113,15 +163,14 @@ class Productos2 extends Component
         $size = Size::all();
     
         return view('livewire.admin.productos2', [
-
             'products' => $products,
-            'subcategories' => $subcategories,
-            'brands' => $brands,
-            'colorProduct' => $colorProduct,
-            'color' => $color,
-            'colorSize' => $colorSize,
-            'size' => $size,
-            'search' => $this->search, 
+            'subcategories' => Subcategory::where('name', 'LIKE', "%{$this->search}%")->orderBy($this->sortField, $this->sortDirection)->get(),
+            'brands' => Brand::where('name', 'LIKE', "%{$this->search}%")->orderBy($this->sortBrandField, $this->sortDirection)->get(),
+            'colorProduct' => ColorProduct::all(),
+            'color' => Color::all(),
+            'colorSize' => ColorSize::all(),
+            'size' => Size::all(),
+            'search' => $this->search,
             'name' => $this->name,
             'category' => $this->category,
             'status' => $this->status,
@@ -129,11 +178,29 @@ class Productos2 extends Component
             'subcategory' => $this->subcategory,
             'brand' => $this->brand,
             'created_at' => $this->created_at,
-            'colors' => $this->colors, 
+            'colors' => $this->colors,
             'stockColor' => $this->stockColor,
-            'sizes' => $this->sizes, 
+            'sizes' => $this->sizes,
             'stockSizes' => $this->stockSizes,
-            'stock' => $this->stock, 
+            'stock' => $this->stock,
+            'nameFilter' => $this->nameFilter,
+            'categoryFilter' => $this->categoryFilter,
+            'brandFilter' => $this->brandFilter,
+            'maxPriceFilter' => $this->maxPriceFilter,
+            'minPriceFilter' => $this->minPriceFilter,
+            'maxCreatedFilter' => $this->maxCreatedFilter,
+            'minCreatedFilter' => $this->minCreatedFilter,
         ])->layout('layouts.admin');
+
+      
+    }
+    public function resetFilters(){
+        $this->nameFilter = null;
+        $this->categoryFilter = null;
+        $this->brandFilter = null;
+        $this->maxPriceFilter = null;
+        $this->minPriceFilter = null;
+        $this->maxCreatedFilter = null;
+        $this->minCreatedFilter = null;
     }
 }

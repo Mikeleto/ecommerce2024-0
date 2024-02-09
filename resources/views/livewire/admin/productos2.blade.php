@@ -10,8 +10,41 @@
             </x-button-link>
         </div>
     </x-slot>
-  
 
+    <div class="px-6 py-4">
+    <x-jet-input class="w-100"
+                         wire:model="nameFilter"
+                         type="text"
+                         placeholder="Filtrar por nombre" />
+            <x-jet-input class="w-100"
+                         wire:model="categoryFilter"
+                         type="text"
+                         placeholder="Filtrar por categoria" />
+            <x-jet-input class="w-100"
+                         wire:model="brandFilter"
+                         type="text"
+                         placeholder="Filtrar por marca" />
+            <x-jet-input type="number" class="w-100" placeholder="Precio minimo" wire:model.lazy="minPriceFilter" />
+            <x-jet-input type="number" class=" w-100" placeholder="Precio máximo" wire:model.lazy="maxPriceFilter"/>
+            <x-jet-input type="date" class=" w-100" placeholder="Fecha minima" wire:model.lazy="minCreatedFilter"/>
+            <x-jet-input type="date" class=" w-100" placeholder="Fecha máxima" wire:model.lazy="maxCreatedFilter"/>
+            <x-button-link class="ml-auto" wire:click="resetFilters">
+                Resetear filtros
+            </x-button-link>
+
+        </div>
+    <div>
+            <x-jet-dropdown>
+                <x-slot name="trigger">
+                    <button>Filtros</button>
+                </x-slot>
+                <x-slot name="content">
+                   
+                   <button wire:click="filterColors">Filtrar por colores</button>
+                
+                </x-slot>
+            </x-jet-dropdown>
+            </div>
     <x-table-responsive>
     <div class="flex inline-flex border-gray-300 border mx-6 p-8">
             <x-jet-dropdown>
@@ -56,7 +89,9 @@
                   
                 </x-slot>
             </x-jet-dropdown>
+            
         </div>
+        
         <div class="px-6 py-4">
             <x-jet-input class="w-full"
                          wire:model="search"
