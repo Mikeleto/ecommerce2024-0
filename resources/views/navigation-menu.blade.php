@@ -18,6 +18,9 @@
                     <x-jet-nav-link href="{{ route('admin.productos2.index') }}" :active="request()->routeIs('admin.productos2.index')">
                         Productos 2
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('admin.zelda.index') }}" :active="request()->routeIs('admin.zelda.index')">
+                        Zelda
+                    </x-jet-nav-link>
 
                     <x-jet-nav-link href="{{ route('admin.orders.index') }}"
                                     :active="request()->routeIs('admin.orders.*')">

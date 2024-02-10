@@ -19,13 +19,19 @@ class PaymentOrder extends Component
         $this->order = $order;
     }
 
-    public function payOrder()
-    {
-        $this->order->status = 2;
-        $this->order->save();
+   // En el componente PaymentOrder.php
 
-        return redirect()->route('orders.show', $this->order);
-    }
+public function payOrder()
+{
+    $this->order->status = 2;
+    $this->order->save();
+
+    // Asociar productos con la orden
+    $this->order->products()->attach($this->order->items);
+
+    return redirect()->route('orders.show', $this->order);
+}
+
 
     public function render()
     {
@@ -36,4 +42,6 @@ class PaymentOrder extends Component
 
         return view('livewire.payment-order', compact('items', 'envio'));;
     }
+
+    
 }
