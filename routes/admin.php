@@ -13,6 +13,7 @@ use App\Http\Livewire\Admin\ShowDepartment;
 use App\Http\Livewire\Admin\ShowProducts;
 use App\Http\Livewire\Admin\Productos2;
 use App\Http\Livewire\Admin\Zelda;
+use App\Http\Livewire\Admin\Link;
 use App\Http\Livewire\Admin\UserComponent;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,4 @@ Route::get('cities/{city}', ShowCity::class)->name('admin.cities.show');
 Route::get('users', UserComponent::class)->name('admin.users.index');
 Route::get('productos2', Productos2::class)->name('admin.productos2.index');
 Route::get('zelda', Zelda::class)->name('admin.zelda.index');
+Route::get('link', Link::class)->name('admin.link.index');

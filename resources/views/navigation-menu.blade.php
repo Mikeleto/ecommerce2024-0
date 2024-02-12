@@ -21,6 +21,9 @@
                     <x-jet-nav-link href="{{ route('admin.zelda.index') }}" :active="request()->routeIs('admin.zelda.index')">
                         Zelda
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('admin.link.index') }}" :active="request()->routeIs('admin.link.index')">
+                        Link
+                    </x-jet-nav-link>
 
                     <x-jet-nav-link href="{{ route('admin.orders.index') }}"
                                     :active="request()->routeIs('admin.orders.*')">

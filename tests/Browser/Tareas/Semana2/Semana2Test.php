@@ -23,14 +23,21 @@ class Semana2Test extends DuskTestCase
     * @return void
     */
 
-    protected function setUp(): void{
+      protected function setUp(): void{
 
         parent::setUp();
+    
         $this->category = Category::factory()->create([
             'name' => 'INFORMATICA',
             'slug' => 'INFORMATICA',
             'icon' => '->',
         ]);
+        $this->subcategory = Subcategory::factory()->create([
+            'name' => 'INFORMATICA',
+            'slug' => 'INFORMATICA',
+            'icon' => '->',
+        ]);
+
         $this->role = Role::create(['name' => 'admin']);
         $this->user = User::factory()->create([
             'name' => 'mike',
@@ -39,35 +46,15 @@ class Semana2Test extends DuskTestCase
         ])->assignRole('admin');
     }
     public function test_s2_tarea1() {
-        $category = $this->category;
-        $role = $this->role;
-        $user = $this->user;
+ 
        
-        $this->browse(function (Browser $browser) use ($category, $role, $user){
+        $this->browse(function (Browser $browser) {
          $browser->visit('/')
+         ->pause(500)
+            ->assertSee('Categorías')
+            ->click('@categorias')
             ->pause(500)
-            ->screenshot('s2-1-0')
-            ->click('@perfil')
-            ->pause(500)
-            ->assertSee('Iniciar sesión')
-            ->assertSee('Registrarse')
-            ->screenshot('s2-1-1')
-            ->click('@login')
-            ->pause(500)
-            ->type('email' , 'pococho@gmail.com')
-            ->type('password', 'poco1234')
-            ->pause(500)
-            ->screenshot('s2-1-2')
-            ->press('INICIAR SESIÓN')
-            ->pause(600)
-            ->screenshot('s2-1-3')
-            ->click('@perfilLogued')
-            ->pause(500)
-            ->assertSee('Perfil')
-            ->assertSee('Finalizar sesión')
-            ->screenshot('s2-1-4')
-
-            ;
+            ->screenshot('purbana');
             
         });
     }
