@@ -10,9 +10,6 @@
             </x-button-link>
         </div>
     </x-slot>
-    <input type="checkbox" id="toggleFilterButton">
-<label for="toggleFilterButton">Mostrar Filtros</label>
-<div class="px-6 py-4" id="filterContainer">
     <div class="px-6 py-4">
     <x-jet-input class="w-100"
                         dusk="nameFilter"
@@ -41,18 +38,6 @@
             </x-button-link>
 
         </div>
-        </div>
-        </div>
-
-<style>
-  #filterContainer {
-    display: none;
-  }
-
-  #toggleFilterButton:checked + label + #filterContainer {
-    display: block;
-  }
-</style>
     <x-table-responsive>
     <div class="flex inline-flex border-gray-300 border mx-6 p-8">
             <x-jet-dropdown>
