@@ -42,6 +42,11 @@ class CategorySeeder extends Seeder
                 'slug' => Str::slug('Moda'),
                 'icon' => '<i class="fas fa-tshirt"></i>'
             ],
+            [
+                'name' => 'Anime',
+                'slug' => Str::slug('Anime'),
+                'icon' => '<i class="fas fa-sword"></i>'
+            ],
         ];
 
         foreach ($categories as $category) {

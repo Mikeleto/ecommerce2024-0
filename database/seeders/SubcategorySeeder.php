@@ -117,7 +117,23 @@ class SubcategorySeeder extends Seeder
                 'slug' => Str::slug('Relojes'),
             ],
 
-            
+            [
+                'category_id' => 6,
+                'name' => 'Anime',
+                'slug' => Str::slug('Anime'),
+                'color' => true,
+                'size' => true
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'Manga',
+                'slug' => Str::slug('Manga'),
+            ],
+            [
+                'category_id' => 5,
+                'name' => 'otaku',
+                'slug' => Str::slug('otaku'),
+            ],
         ];
 
         foreach ($subcategories as $subcategory)
