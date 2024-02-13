@@ -194,6 +194,39 @@ class PruebaTest extends DuskTestCase
         });
     }
 
+    public function test_papelera() {
+       
+        $role = Role::create(['name' => 'admin']);
+        $usuario = User::factory()->create([
+            'name' => 'Rubén',
+            'email' => 'algo1234@gmail.com',
+            'password' => bcrypt('algo1234')
+        ])->assignRole('admin');
+        $usuario2 = User::factory()->create([
+            'name' => 'aaaaa',
+            'email' => 'algo12346@gmail.com',
+            'password' => bcrypt('algo12346')
+        ]);
+        $products = Product::whereHas('subcategory', function (Builder $query) {
+            $query->where('color', true)
+                ->where('size', false);
+        })->get();
+        foreach ($products as $product) {
+            $product->colors()->attach([
+                1 => [
+                    'quantity' => 10
+                ],
+            ]);
+        }
+        $this->browse(function (Browser $browser) use ($usuario, $usuario2) {
+            $browser->loginAs($usuario)
+                ->visit('admin/users')
+                ->pause(300)
+                ->screenshot('papelera');
+        });
+    }
+
+
   
 
 
