@@ -44,6 +44,7 @@ class Link extends Component
         }
     }
 
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -53,6 +54,8 @@ class Link extends Component
     {
 
         $query = Product::query();
+   
+      
 
         if($this->nameFilter){
             $query->where('name', 'LIKE', "%{$this->nameFilter}%");
@@ -74,10 +77,11 @@ class Link extends Component
 
         }
 
-        if($this->colorsFilter){
+        if ($this->colorsFilter) {
             $query->whereHas('colors');
-
         }
+        
+        
 
         if($this->sizeFilter){
             $query->whereHas('sizes');
