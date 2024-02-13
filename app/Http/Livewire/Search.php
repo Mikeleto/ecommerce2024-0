@@ -3,12 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\Product;
+use App\Models\Category;
 use Livewire\Component;
 
 class Search extends Component
 {
     public $search;
     public $open = false;
+    public $categoryFilter;
 
     public function updatedSearch($value)
     {
@@ -17,10 +19,26 @@ class Search extends Component
 
     public function render()
     {
-        $products = $this->search
-            ? Product::where('name', 'LIKE', "%{$this->search}%")->where('status', 2)->take(8)->get()
-            : [];
+        $categories = Category::all();
+        $query = Product::query()->where('status', 2);
 
-        return view('livewire.search', compact('products'));
+        if ($this->search) {
+            $query->where(function ($query) {
+                $query->where('name', 'LIKE', "%{$this->search}%");
+            });
+        }
+
+        if ($this->categoryFilter) {
+            $query->whereHas('subcategory.category', function ($q) {
+                $q->where('name', 'LIKE', "%{$this->categoryFilter}%");
+            });
+        }
+
+        $products = $query->take(8)->get();
+
+        return view('livewire.search', [
+            'products' => $products,
+            'categories' => $categories,
+        ]);
     }
 }
