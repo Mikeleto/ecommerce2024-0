@@ -49,6 +49,9 @@
                                     :active="request()->routeIs('admin.users.*')">
                         Usuarios
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('admin.trash.index') }}" :active="request()->routeIs('admin.trash.index')">
+                        Papelera
+                    </x-jet-nav-link>
                 </div>
             </div>
 

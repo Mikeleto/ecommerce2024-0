@@ -1,7 +1,7 @@
 <div>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
-            Usuarios
+            Papelera de usuarios
         </h2>
     </x-slot>
 
@@ -34,7 +34,6 @@
                         <th scope="col" class="relative px-6 py-3">
                             <span class="sr-only">Editar</span>
                         </th>
-                       
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -78,14 +77,12 @@
                                     No
                                 </label>
                             </td>
-                        
-   
+                            
                             <td>
                                 
-                                <button wire:click="deleteUser({{ $user->id }})">Eliminar</button>
-                            </td>
-           
-                    </tr>
+            <button wire:click="restoreUser({{ $user->id }})">Restaurar</button>
+        </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>

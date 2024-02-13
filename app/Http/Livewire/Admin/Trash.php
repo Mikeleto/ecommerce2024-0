@@ -6,7 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class UserComponent extends Component
+class Trash extends Component
 {
     use WithPagination;
 
@@ -24,22 +24,29 @@ class UserComponent extends Component
         }
     }
 
-    public function deleteUser($userId) {
-        $this->deletingUserId = $userId;
-        $this->confirmUserDeletion();
-    }
+    public function refreshComponent()
+{
+    $this->reset('search');
+}
+public function restoreUser($userId)
+{
+    $user = User::withTrashed()->find($userId);
+    $user->restore();
+    
+    $this->refreshComponent();
+}
+  
 
-    public function confirmUserDeletion() {
-        User::find($this->deletingUserId)->delete();
-        session()->flash('success', 'Usuario eliminado correctamente.');
-        $this->deletingUserId = null;
-    }
     public function render() {
-        $users = User::where('email', '<>', auth()->user()->email)
+        $users = User::onlyTrashed()
+            ->where('email', '<>', auth()->user()->email)
             ->where(function ($query) {
                 $query->where('name', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('email', 'LIKE', '%' . $this->search . '%');
-            })->orderBy('id')->paginate();
-        return view('livewire.admin.user-component', compact('users'))->layout('layouts.admin');
+            })
+            ->orderBy('id')
+            ->paginate();
+    
+        return view('livewire.admin.trash', compact('users'))->layout('layouts.admin');
     }
 }
