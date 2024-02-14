@@ -29,6 +29,18 @@
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
+            <div class="mt-4">
+    <x-jet-label for="profession" value="{{ __('Profession') }}" />
+    <select id="profession" name="profession" class="block mt-1 w-full p-2 border rounded-md">
+        <option value="" selected disabled>Select Profession</option>
+        @if(isset($professions))
+            @foreach($professions as $profession)
+                <option value="{{ $profession->id }}">{{ $profession->name }}</option>
+            @endforeach
+        @endif
+    </select>
+</div>
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-jet-label for="terms">

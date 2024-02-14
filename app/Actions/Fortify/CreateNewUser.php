@@ -3,14 +3,19 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Models\Profession;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\View;
+
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
+
+    
 
     /**
      * Validate and create a newly registered user.
@@ -18,19 +23,30 @@ class CreateNewUser implements CreatesNewUsers
      * @param  array  $input
      * @return \App\Models\User
      */
+
+   
     public function create(array $input)
     {
+        
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+            'profession' => ['nullable', 'string', 'max:20'],
         ])->validate();
 
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'profession' => $input['profession'], 
         ]);
+    }
+    public function showRegistrationForm()
+    {
+        $professions = Profession::all();
+        
+        return view('auth.register', compact('professions'));
     }
 }
