@@ -16,13 +16,29 @@
                             wire:model="nameFilter"
                             type="text"
                             placeholder="Filtrar por nombre" />
-                <x-jet-input class="w-100"
-                            wire:model="categoryFilter"
-                            type="text"
-                            placeholder="Filtrar por categoria" />
+              
         
                 <x-jet-input type="date" class=" w-100" placeholder="Fecha minima" wire:model.lazy="minCreatedFilter"/>
                 <x-jet-input type="date" class=" w-100" placeholder="Fecha máxima" wire:model.lazy="maxCreatedFilter"/>
+                <div>
+    <label for="categorySelect">Seleccionar Categoría:</label>
+    <select wire:model="selectedCategory" id="categorySelect">
+        <option value="">Todas las Categorías</option>
+        @foreach($this->getAllCategories() as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+                <div>
+    <label for="colorSelect">Seleccionar Color:</label>
+    <select wire:model="selectedColor" id="colorSelect">
+        <option value="">Todos los colores</option>
+        @foreach($colors as $color)
+            <option value="{{ $color->id }}">{{ $color->name }}</option>
+        @endforeach
+    </select>
+</div>
             <div class="mt-1">
                 <label class="inline-flex items-center">
                     <input type="checkbox" wire:model="colorsFilter" class="form-checkbox text-indigo-600">
@@ -155,50 +171,42 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $product->brand->name }}
                             </td>
-                        
-                            @if($product->colors->isNotEmpty())
                             @if($c)
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @foreach($colors as $color)
-                            <div class="text-sm text-gray-900">{{ $color->name }}</div>
-                            @endforeach
-                            </td>
-                            @endif
-                            @if($s)
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @foreach($colorProduct as $color)
-                            <div class="text-sm text-gray-900"> {{ $color->quantity }}</div>
-                            @endforeach
-                            </td>
-                            @endif
-                            @else
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <div class="text-sm text-gray-900"></div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <div class="text-sm text-gray-900"> </div>
-                            </td>
-                            @endif
-                            
-                            @if($product->sizes->isNotEmpty())
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @foreach($sizes as $size)
-                            <div class="text-sm text-gray-900">{{ $size->name }}</div>
-                            @endforeach
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            @foreach($colorSize as $color)
-                            <div class="text-sm text-gray-900"></div>
-                            @endforeach
-                            </td>
-                            @else
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <div class="text-sm text-gray-900"></div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <div class="text-sm text-gray-900"> </div>
-                            </td>
-                            @endif
+            <td>
+                @foreach($product->colors as $color)
+                <div class="text-sm text-gray-900"> {{ $color->name }}</div>
+                   
+                @endforeach
+            </td>
+        @endif
+        @if($product->colors->isNotEmpty())
+        @if($s)
+            <td>
+                @foreach($colorProduct as $color)
+                <div class="text-sm text-gray-900"> {{ $color->quantity }}</div>
+                @endforeach
+            </td>
+        @endif
+        @endif
+        @if($product->sizes->isNotEmpty())
+            <td>
+                @foreach($product->sizes as $size)
+                    {{ $size->name }}
+                @endforeach
+            </td>
+            <td>
+                @foreach($product->sizes as $size)
+                    {{ $size->name }} {{-- Se asume que la relación es de muchos a muchos con un campo quantity en la tabla pivote --}}
+                @endforeach
+            </td>
+        @else
+            <td>
+                <div class="text-sm text-gray-900">Sin tallas</div>
+            </td>
+            <td>
+                <div class="text-sm text-gray-900"></div>
+            </td>
+        @endif
                             
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.products.edit', $product) }}"

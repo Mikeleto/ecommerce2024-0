@@ -7,6 +7,7 @@ use App\Models\Color;
 use App\Models\ColorProduct;
 use App\Models\Size;
 use App\Models\ColorSize;
+use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,6 +30,9 @@ class Link extends Component
     public $minCreatedFilter;
     public $colorsFilter;
     public $sizeFilter;
+    public $selectedColor;
+
+    public $selectedCategory;
 
     public function sortBy($field){
         if($this->sortField === $field){
@@ -50,12 +54,38 @@ class Link extends Component
         $this->resetPage();
     }
 
+   
+
+    public function getAllCategories()
+    {
+        return Category::all(); // Reemplaza 'Category' con el nombre real de tu modelo de categoría
+    }
+
+    
     public function render()
     {
 
         $query = Product::query();
    
-      
+        if (!is_null($this->selectedColor)) {
+            $query->whereHas('colors', function($q) {
+                $q->where('color_id', $this->selectedColor);
+            });
+        }
+
+         if (!is_null($this->sizeFilter)) {
+        $query->whereHas('sizes', function($q) {
+            $q->where('name', $this->sizeFilter);
+        });
+        }
+
+        if (!is_null($this->selectedCategory)) {
+            $query->whereHas('subcategory.category', function($q) {
+                $q->where('id', $this->selectedCategory);
+            });
+        }
+
+    
 
         if($this->nameFilter){
             $query->where('name', 'LIKE', "%{$this->nameFilter}%");
@@ -89,12 +119,16 @@ class Link extends Component
         }
 
         $products = $query
+        ->with('colors')
         ->orderBy($this->sortField, $this->sortDirection)
         ->paginate($this->perPage);
+
         $colors = Color::all();
         $colorSize = ColorSize::all();
         $colorProduct = ColorProduct::all();
         $sizes = Size::all();
+
+        
 
 
         return view('livewire.admin.link', [
@@ -112,8 +146,9 @@ class Link extends Component
             'minCreatedFilter' => $this->minCreatedFilter,
             'colorsFilter' => $this->colorsFilter,
             'sizeFilter' => $this->sizeFilter,
-        ])
-            ->layout('layouts.admin');
+            'selectedColor' => $this->selectedColor,
+            'selectedCategory' => $this->selectedCategory,
+        ])->layout('layouts.admin');
     }
 
     public function resetFilters(){
@@ -123,5 +158,6 @@ class Link extends Component
             $this->minCreatedFilter = null;
             $this->colorsFilter = null;
             $this->sizeFilter = null;
+            $this->selectedCategory = null;
     }
 }

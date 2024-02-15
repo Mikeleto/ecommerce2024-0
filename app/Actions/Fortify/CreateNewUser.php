@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
-use Illuminate\Support\Facades\View;
-
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -23,8 +21,6 @@ class CreateNewUser implements CreatesNewUsers
      * @param  array  $input
      * @return \App\Models\User
      */
-
-   
     public function create(array $input)
     {
         
@@ -43,10 +39,6 @@ class CreateNewUser implements CreatesNewUsers
             'profession' => $input['profession'], 
         ]);
     }
-    public function showRegistrationForm()
-    {
-        $professions = Profession::all();
-        
-        return view('auth.register', compact('professions'));
-    }
+
+   
 }

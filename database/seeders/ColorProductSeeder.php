@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Color;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Seeder;
 
 class ColorProductSeeder extends Seeder
@@ -15,26 +15,24 @@ class ColorProductSeeder extends Seeder
      */
     public function run()
     {
-        $products = Product::whereHas('subcategory', function(Builder $query){
+        $products = Product::whereHas('subcategory', function($query){
             $query->where('color', true)
                 ->where('size', false);
         })->get();
 
+        $colors = Color::all();
+
         foreach ($products as $product) {
-            $product->colors()->attach([
-                1 => [
-                    'quantity' => 10
-                ],
-                2 => [
-                    'quantity' => 10
-                ],
-                3 => [
-                    'quantity' => 10
-                ],
-                4 => [
-                    'quantity' => 10
-                ]
-            ]);
+            $colorQuantities = [];
+
+            // Obtener una lista aleatoria de colores para este producto
+            $randomColors = $colors->random(rand(1, count($colors)));
+
+            foreach ($randomColors as $color) {
+                $colorQuantities[$color->id] = ['quantity' => rand(0, 20)]; // ajusta el rango según tus necesidades
+            }
+
+            $product->colors()->attach($colorQuantities);
         }
     }
 }

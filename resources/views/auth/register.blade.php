@@ -30,16 +30,15 @@
             </div>
 
             <div class="mt-4">
-    <x-jet-label for="profession" value="{{ __('Profession') }}" />
-    <select id="profession" name="profession" class="block mt-1 w-full p-2 border rounded-md">
-        <option value="" selected disabled>Select Profession</option>
-        @if(isset($professions))
-            @foreach($professions as $profession)
-                <option value="{{ $profession->id }}">{{ $profession->name }}</option>
-            @endforeach
-        @endif
-    </select>
-</div>
+                <x-jet-label for="profession" value="{{ __('Profession') }}" />
+                <select id="profession" name="profession" class="block mt-1 w-full p-2 border rounded-md">
+                    <option value="" selected disabled>Select Profession</option>
+                    @foreach ($professions as $profession)
+            <option value="{{$profession->id}}">{{ __(ucfirst($profession->name)) }}</option>
+        @endforeach
+                 
+                </select>
+            </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
