@@ -39,37 +39,68 @@ class LaratddTest extends DuskTestCase
         parent::setUp();
     
         $brand = Brand::factory()->create();
+        $brand2 = Brand::factory()->create();
+    
         $category = Category::factory()->create([
             'name' => 'categoria',
             'slug' => 'categoria',
             'icon' => 'categoria',
         ]);
+        $category2 = Category::factory()->create([
+            'name' => 'categoria2',
+            'slug' => 'categoria2',
+            'icon' => 'categoria2',
+        ]);
+      
         $category->brands()->attach($brand->id);
-        $subcategory1 = Subcategory::factory()->create([
+        $category2->brands()->attach($brand2->id);
+       
+        $subcategory = Subcategory::factory()->create([
             'category_id' => $category->id,
             'name' => 'ropa',
             'slug' => 'ropa',
             'color' => true,
             'size' => true
         ]);
+        $subcategory2 = Subcategory::factory()->create([
+            'category_id' => $category2->id,
+            'name' => 'tele',
+            'slug' => 'tele',
+        ]);
+        $subcategory3 = Subcategory::factory()->create([
+            'category_id' => $category->id,
+            'name' => 'movil',
+            'slug' => 'movil',
+            'color' => true,
+        ]);
         $p1 = Product::factory()->create([
-            'subcategory_id' => $subcategory1->id,
-            'quantity' => 2,
+            'subcategory_id' => $subcategory->id,
+            'quantity' => 10,
             'name' => 'algo1',
             'slug' => 'algo1',
+        ]);
+        $p2 = Product::factory()->create([
+            'subcategory_id' => $subcategory2->id,
+            'quantity' => 10,
+            'name' => 'algo2',
+            'slug' => 'algo2',
+        ]);
+        $p3 = Product::factory()->create([
+            'subcategory_id' => $subcategory3->id,
+            'quantity' => 10,
+            'name' => 'algo3',
+            'slug' => 'algo3',
         ]);
         Image::factory()->create([
             'imageable_id' => $p1->id,
             'imageable_type' => Product::class
         ]);
-        $p2 = Product::factory()->create([
-            'subcategory_id' => $subcategory1->id,
-            'quantity' => 2,
-            'name' => 'algo2',
-            'slug' => 'algo2',
-        ]);
         Image::factory()->create([
             'imageable_id' => $p2->id,
+            'imageable_type' => Product::class
+        ]);
+        Image::factory()->create([
+            'imageable_id' => $p3->id,
             'imageable_type' => Product::class
         ]);
         $size = Size::factory()->create([
@@ -88,6 +119,17 @@ class LaratddTest extends DuskTestCase
                 ->attach([
                     1 => ['quantity' => 10],
                 ]);
+        }
+        $products = Product::whereHas('subcategory', function (Builder $query) {
+            $query->where('color', true)
+                ->where('size', false);
+        })->get();
+        foreach ($products as $product) {
+            $product->colors()->attach([
+                1 => [
+                    'quantity' => 10
+                ],
+            ]);
         }
      
     }
@@ -115,7 +157,7 @@ class LaratddTest extends DuskTestCase
         });
     }
 
-    public function test_prueba2() {
+    public function test_dobleFiltro() {
        
         $role = Role::create(['name' => 'admin']);
         $usuario = User::factory()->create([
@@ -143,10 +185,16 @@ class LaratddTest extends DuskTestCase
             $browser->loginAs($usuario)
                 ->visit('admin/link')
                 ->pause(300)
+                ->screenshot('dobleFiltro')
                 ->type('@nameFilter', 'algo2')
                 ->pause(500)
-                ->assertDontSee('algo1')
-                ->screenshot('prueba2');
+                ->select('#brandSelect',2)
+                ->pause(500)
+                ->screenshot('dobleFiltro-1')
+                ->select('#colorSelect',2)
+                ->pause(500)
+                ->assertSee('No existen productos coincidentes')
+                ->screenshot('dobleFiltro-2');
         });
     }
 
