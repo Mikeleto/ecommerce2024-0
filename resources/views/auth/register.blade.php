@@ -30,31 +30,17 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="profession" value="{{ __('Profession') }}" />
-                <select id="profession" name="profession" class="block mt-1 w-full p-2 border rounded-md">
-                    <option value="" selected disabled>Select Profession</option>
-                    @foreach ($professions as $profession)
-            <option value="{{$profession->id}}">{{ __(ucfirst($profession->name)) }}</option>
-        @endforeach
-                 
-                </select>
+                <x-jet-label for="bio" value="{{ __('Bio') }}" />
+                <x-jet-input id="bio" class="block mt-1 w-full" type="text" name="bio" :value="old('bio')" />
+            </div>
+
+            <div class="mt-4">
+                <x-jet-label for="twitter" value="{{ __('Twitter') }}" />
+                <x-jet-input id="twitter" class="block mt-1 w-full" type="url" name="twitter" :value="old('twitter')" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-jet-label for="terms">
-                        <div class="flex items-center">
-                            <x-jet-checkbox name="terms" id="terms"/>
-
-                            <div class="ml-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </x-jet-label>
-                </div>
+                <!-- ... (Código para términos y política de privacidad) -->
             @endif
 
             <div class="flex items-center justify-end mt-4">

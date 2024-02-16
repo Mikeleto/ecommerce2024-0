@@ -32,6 +32,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'bio',
+        'twitter',
     ];
 
     /**
@@ -66,5 +68,18 @@ class User extends Authenticatable
 
     public function orders() {
         return $this->hasMany(Order::class);
+    }
+
+    public function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $this->id,
+
+            'bio' => 'required_without:profession|string|max:255',
+            'twitter' => 'required_without:profession|url|max:255',
+            'password' => 'sometimes|required|string|min:8|confirmed',
+            'photo' => 'nullable|image|max:2048',
+        ];
     }
 }

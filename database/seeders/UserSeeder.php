@@ -17,14 +17,14 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Carlos Abrisqueta',
             'email' => 'carlos@test.com',
-            'profession' => 'constructor',
+        
         ]);
         $role = Role::create(['name' => 'admin']);
         User::factory()->create([
             'name' => 'Antoniardo',
             'email' => 'prueba@gmail.com',
             'password' => bcrypt('12345678'),
-            'profession' => 'constructor',
+      
         ])->assignRole('admin');
 
     }
