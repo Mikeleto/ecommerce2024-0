@@ -29,6 +29,15 @@
         @endforeach
     </select>
 </div>
+<div>
+    <label for="brandSelect">Seleccionar Marca:</label>
+    <select wire:model="selectedBrand" id="brandSelect">
+        <option value="">Todas las Marcas</option>
+        @foreach($this->getAllBrands() as $brand)
+            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+        @endforeach
+    </select>
+</div>
 
                 <div>
     <label for="colorSelect">Seleccionar Color:</label>
@@ -130,6 +139,10 @@
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Stock tallas
                         </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Fecha de creacion
+                        </th>
 
                         <th scope="col" class="relative px-6 py-3">
                             <span class="sr-only">Editar</span>
@@ -207,6 +220,9 @@
                 <div class="text-sm text-gray-900"></div>
             </td>
         @endif
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $product->created_at }}
+                            </td>
                             
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.products.edit', $product) }}"
@@ -227,7 +243,7 @@
                     {{ $products->links() }}
                 </div>
             @endif
-
+          
             <div>
         <label for="perPage">Elementos por página:</label>
         <select wire:model="perPage" id="perPage">

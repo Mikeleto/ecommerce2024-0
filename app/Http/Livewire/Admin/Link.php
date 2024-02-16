@@ -8,6 +8,7 @@ use App\Models\ColorProduct;
 use App\Models\Size;
 use App\Models\ColorSize;
 use App\Models\Category;
+use App\Models\Brand;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -34,6 +35,8 @@ class Link extends Component
 
     public $selectedCategory;
 
+    public $selectedBrand;
+
     public function sortBy($field){
         if($this->sortField === $field){
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -58,7 +61,12 @@ class Link extends Component
 
     public function getAllCategories()
     {
-        return Category::all(); // Reemplaza 'Category' con el nombre real de tu modelo de categoría
+        return Category::all(); 
+    }
+
+    public function getAllBrands()
+    {
+        return Brand::all(); 
     }
 
     
@@ -84,6 +92,13 @@ class Link extends Component
                 $q->where('id', $this->selectedCategory);
             });
         }
+
+        if (!is_null($this->selectedBrand)) {
+            $query->whereHas('brand', function($q) {
+                $q->where('id', $this->selectedBrand);
+            });
+        }
+
 
     
 
@@ -148,6 +163,7 @@ class Link extends Component
             'sizeFilter' => $this->sizeFilter,
             'selectedColor' => $this->selectedColor,
             'selectedCategory' => $this->selectedCategory,
+            'selectedBrand' => $this->selectedBrand,
         ])->layout('layouts.admin');
     }
 
@@ -159,5 +175,6 @@ class Link extends Component
             $this->colorsFilter = null;
             $this->sizeFilter = null;
             $this->selectedCategory = null;
+            $this->selectedBrand = null;
     }
 }
