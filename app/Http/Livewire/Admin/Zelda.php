@@ -63,16 +63,11 @@ class Zelda extends Component
         });
         }
 
-     if($this->maxPriceFilter){
-        $query->where('price', '<=', "$this->maxPriceFilter");
-        }
-
-     if($this->minPriceFilter){
-        $query->where('price', '>=', "$this->minPriceFilter");
-        }
         $products = $query
         ->applyFilters([
-            'nameFilter' => $this->nameFilter,])
+            'nameFilter' => $this->nameFilter,
+            'maxPriceFilter' => $this->maxPriceFilter,
+            'minPriceFilter' => $this->minPriceFilter,])
         ->orderBy($this->sortField, $this->sortDirection)
         ->paginate($this->perPage);
         $color = Color::all();
@@ -90,8 +85,6 @@ class Zelda extends Component
             'stock' => $this->stock,
             'colors' => $this->colors,
             'categoryFilter' => $this->categoryFilter,
-            'maxPriceFilter' => $this->maxPriceFilter,
-            'minPriceFilter' => $this->minPriceFilter,
 
                      ])
                      

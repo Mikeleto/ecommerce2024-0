@@ -12,6 +12,8 @@ class ProductFilter extends QueryFilter
         return [
             'search' => 'filled',
             'nameFilter' => 'filled',
+            'maxPriceFilter' => 'filled',
+            'minPriceFilter' => 'filled',
         ];
     }
 
@@ -32,6 +34,20 @@ class ProductFilter extends QueryFilter
     {
         if ($nameFilter) {
             $query->nameFilter($nameFilter);
+        }
+    }
+
+    public function maxPriceFilter($query, $maxPriceFilter)
+    {
+        if ($maxPriceFilter) {
+            $query->maxPriceFilter($maxPriceFilter);
+        }
+    }
+
+    public function minPriceFilter($query, $minPriceFilter)
+    {
+        if ($minPriceFilter) {
+            $query->minPriceFilter($minPriceFilter);
         }
     }
   
