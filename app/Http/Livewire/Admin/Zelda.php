@@ -57,10 +57,6 @@ class Zelda extends Component
     public function render()
     {
         $query = Product::query();
-        if($this->nameFilter){
-        $query->where('name', 'LIKE', "%{$this->nameFilter}%");
-        }
-
         if($this->categoryFilter){
         $query->whereHas('subcategory.category', function($p){
             $p->where('name', 'LIKE', "%{$this->categoryFilter}%");
@@ -75,6 +71,8 @@ class Zelda extends Component
         $query->where('price', '>=', "$this->minPriceFilter");
         }
         $products = $query
+        ->applyFilters([
+            'nameFilter' => $this->nameFilter,])
         ->orderBy($this->sortField, $this->sortDirection)
         ->paginate($this->perPage);
         $color = Color::all();
@@ -91,7 +89,6 @@ class Zelda extends Component
             'sold' => $this->sold,
             'stock' => $this->stock,
             'colors' => $this->colors,
-            'nameFilter' => $this->nameFilter,
             'categoryFilter' => $this->categoryFilter,
             'maxPriceFilter' => $this->maxPriceFilter,
             'minPriceFilter' => $this->minPriceFilter,
