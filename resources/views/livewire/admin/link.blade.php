@@ -141,6 +141,10 @@
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <a href="#" wire:click="sortBy('quantity')">Stock productos</a>
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Fecha de creacion
                         </th>
 
@@ -220,6 +224,9 @@
                 <div class="text-sm text-gray-900"></div>
             </td>
         @endif
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $product->quantity }}
+                            </td>
         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $product->created_at }}
                             </td>
