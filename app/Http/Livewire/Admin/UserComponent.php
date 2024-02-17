@@ -34,12 +34,18 @@ class UserComponent extends Component
         session()->flash('success', 'Usuario eliminado correctamente.');
         $this->deletingUserId = null;
     }
-    public function render() {
+    public function render()
+    {
         $users = User::where('email', '<>', auth()->user()->email)
             ->where(function ($query) {
                 $query->where('name', 'LIKE', '%' . $this->search . '%')
                     ->orWhere('email', 'LIKE', '%' . $this->search . '%');
             })->orderBy('id')->paginate();
+    
+        foreach ($users as $user) {
+            $user->bio = strlen($user->bio) > 30 ? substr($user->bio, 0, 30) . '...' : $user->bio;
+        }
+    
         return view('livewire.admin.user-component', compact('users'))->layout('layouts.admin');
     }
 }
