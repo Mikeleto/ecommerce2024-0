@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
         $this->createUser();
         $this->createAdminUser();
         $this->createOtherUser();
+        User::factory(100)->create();
 
     }
     
@@ -30,7 +31,7 @@ class UserSeeder extends Seeder
 
     private function createUser(){
         User::factory()->create([
-            'id' => 1,
+    
             'name' => 'Carlos Abrisqueta',
             'email' => 'carlos@test.com',
             'profession' => 'Desarrollador back-end',
@@ -41,7 +42,7 @@ class UserSeeder extends Seeder
     private function createAdminUser(){
         $role = Role::create(['name' => 'admin']);
         User::factory()->create([
-            'id' => 2,
+          
             'name' => 'Antoniardo',
             'email' => 'prueba@gmail.com',
             'password' => bcrypt('12345678'),
@@ -52,7 +53,7 @@ class UserSeeder extends Seeder
 
     private function createOtherUser(){
         User::factory()->create([
-            'id' => 3,
+        
             'name' => 'Rayo',
             'email' => 'rayo@test.com',
             'profession' => 'Desarrollador full stack',

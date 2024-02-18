@@ -44,7 +44,7 @@ class CreateNewUser implements CreatesNewUsers
         // Almacenar la profesión en la base de datos si se proporciona
         if ($input['profession']) {
             $profession = new Profession(['title' => $input['profession']]);
-            $user->professions()->save($profession);
+
         }
 
         return $user;

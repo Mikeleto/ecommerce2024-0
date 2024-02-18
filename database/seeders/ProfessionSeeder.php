@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\Profession;
 use Illuminate\Database\Seeder;
 
@@ -13,10 +14,10 @@ class ProfessionSeeder extends Seeder
      */
     public function run()
     {
+        // Crear las profesiones existentes
         $professions = [
             [
                 'title' => 'Desarrollador back-end',
-                'user_id' => 1,
                 'education_level' => 'Bachillerato',
                 'salary' => 3000,
                 'sector' => 'Salud',
@@ -24,7 +25,6 @@ class ProfessionSeeder extends Seeder
             ],
             [
                 'title' => 'Desarrollador front-end',
-                'user_id' => 2,
                 'education_level' => 'Bachillerato',
                 'salary' => 3000,
                 'sector' => 'Salud',
@@ -32,18 +32,19 @@ class ProfessionSeeder extends Seeder
             ],
             [
                 'title' => 'Desarrollador full stack',
-                'user_id' => 3,
                 'education_level' => 'Bachillerato',
                 'salary' => 3000,
                 'sector' => 'Salud',
                 'experience_required' => 5,
             ],
-          
+            // ... otras profesiones existentes ...
         ];
 
-        foreach ($professions as $profession)
-        {
+        foreach ($professions as $profession) {
             Profession::create($profession);
         }
+
+        // Crear 100 nuevas profesiones utilizando el factory
+        Profession::factory(100)->create();
     }
 }
