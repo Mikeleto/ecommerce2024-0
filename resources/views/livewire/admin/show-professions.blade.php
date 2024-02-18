@@ -59,7 +59,7 @@
             </table>
         @else
             <div class="px-6 py-4">
-                No existen productos coincidentes
+                No existen profesiones coincidentes
             </div>
         @endif
 
