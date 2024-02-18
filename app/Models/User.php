@@ -34,6 +34,7 @@ class User extends Authenticatable
         'password',
         'bio',
         'twitter',
+        'profession',
     ];
 
     /**
@@ -69,6 +70,11 @@ class User extends Authenticatable
     public function orders() {
         return $this->hasMany(Order::class);
     }
+
+    public function professions()
+{
+    return $this->hasOne(Profession::class);
+}
 
     public function rules()
     {

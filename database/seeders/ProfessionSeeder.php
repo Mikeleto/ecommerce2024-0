@@ -15,24 +15,28 @@ class ProfessionSeeder extends Seeder
     {
         $professions = [
             [
-                'name' => 'Desarrollador back-end',
+                'title' => 'Desarrollador back-end',
+                'user_id' => 1,
+                'education_level' => 'Bachillerato',
+                'salary' => 3000,
+                'sector' => 'Salud',
+                'experience_required' => 5,
             ],
             [
-                'name' => 'Desarrollador front-end',
+                'title' => 'Desarrollador front-end',
+                'user_id' => 2,
+                'education_level' => 'Bachillerato',
+                'salary' => 3000,
+                'sector' => 'Salud',
+                'experience_required' => 5,
             ],
             [
-                'name' => 'Desarrollador full stack',
-            ],
-            [
-                'name' => 'Ingeniero',
-            ],
-            [
-                'name' => 'Pizzero',
-
-            ],
-            [
-                'name' => 'Autonomo',
-              
+                'title' => 'Desarrollador full stack',
+                'user_id' => 3,
+                'education_level' => 'Bachillerato',
+                'salary' => 3000,
+                'sector' => 'Salud',
+                'experience_required' => 5,
             ],
           
         ];

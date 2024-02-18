@@ -39,6 +39,11 @@
                 <x-jet-input id="twitter" class="block mt-1 w-full" type="url" name="twitter" :value="old('twitter')" />
             </div>
 
+            <div class="mt-4">
+                <x-jet-label for="profession" value="{{ __('Profession') }}" />
+                <x-jet-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" />
+            </div>
+
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <!-- ... (Código para términos y política de privacidad) -->
             @endif

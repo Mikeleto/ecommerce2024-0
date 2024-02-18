@@ -24,6 +24,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'bio' => ['nullable', 'string', 'max:255'],
             'twitter' => ['nullable', 'url', 'max:255'],
+            'profession' => ['nullable', 'string', 'max:20'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
@@ -39,6 +40,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
                 'bio' => $input['bio'],
                 'twitter' => $input['twitter'],
+                'profession' => $input['profession'],
             ])->save();
         }
     }
