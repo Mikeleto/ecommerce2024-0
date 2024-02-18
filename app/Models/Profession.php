@@ -8,5 +8,8 @@ class Profession extends Model
 {
     protected $fillable = ['title'];
 
- 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 }

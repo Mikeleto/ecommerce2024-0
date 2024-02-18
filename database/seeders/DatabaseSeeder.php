@@ -32,5 +32,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ColorSizeSeeder::class);
         $this->call(DepartmentSeeder::class);
         $this->call(ProfessionSeeder::class);
+        $this->call(SkillSeeder::class);
     }
 }
