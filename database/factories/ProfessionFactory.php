@@ -13,6 +13,11 @@ class ProfessionFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
+            'description' => $this->faker->paragraph,
+            'education_level' => $this->faker->randomElement(['Sin estudios', 'Secundaria obligatoria', 'Bachillerato', 'Técnico de grado medio', 'Técnico de grado superior', 'Grado universitario', 'Postgrado']),
+            'salary' => $this->faker->numberBetween(20000, 100000),
+            'sector' => $this->faker->randomElement(['Tecnología', 'Salud', 'Educación', 'Finanzas']),
+            'experience_required' => $this->faker->numberBetween(0, 20),
         ];
     }
 

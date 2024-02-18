@@ -39,6 +39,10 @@
                                     :active="request()->routeIs('admin.brands.*')">
                         Marcas
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('admin.professions.index') }}"
+                                    :active="request()->routeIs('admin.professions.index')">
+                        Professiones
+                    </x-jet-nav-link>
 
                     <x-jet-nav-link href="{{ route('admin.departments.index') }}"
                                     :active="request()->routeIs('admin.departments.*')">

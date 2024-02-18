@@ -8,7 +8,7 @@ class Profession extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'description','education_level','salary','sector','experience_required'];
 
     public function skills()
     {
