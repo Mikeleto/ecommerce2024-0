@@ -11,7 +11,7 @@
     <div>
 
     <div>
-        <x-jet-input class="w-100" wire:model="nameFilter" type="text" placeholder="Filtrar por nombre" />
+        <x-jet-input class="w-100" dusk="title" wire:model="nameFilter" type="text" placeholder="Filtrar por nombre" />
         
         <!-- Mostrar habilidades seleccionadas -->
         <div class="mt-4">
@@ -28,12 +28,12 @@
             <label class="text-gray-500">Seleccionar habilidades:</label>
             @foreach($skills as $skill)
                 <div class="inline-block mr-2">
-                    <input type="checkbox" wire:model="selectedSkills" value="{{ $skill }}">
+                    <input type="checkbox" dusk="selectedSkills" wire:model="selectedSkills" value="{{ $skill }}">
                     <label class="ml-1">{{ $skill }}</label>
                 </div>
             @endforeach
         </div>
-            
+
     </div>
     </div>
 
