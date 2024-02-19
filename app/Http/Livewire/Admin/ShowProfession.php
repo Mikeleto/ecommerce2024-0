@@ -12,11 +12,11 @@ class ShowProfession extends Component
     use WithPagination;
 
     public $search;
-
     public $perPage = 10;
-
-    public $sortBy = 'title'; 
-    public $sortDirection = 'asc'; 
+    public $nameFilter;
+    public $sortBy = 'title';
+    public $sortDirection = 'asc';
+    public $selectedSkills = [];
 
     public function sortBy($column)
     {
@@ -33,15 +33,29 @@ class ShowProfession extends Component
     {
         $this->resetPage();
     }
-    
 
     public function render()
     {
-        $professions = Profession::where('title', 'LIKE', "%{$this->search}%")
-        ->orderBy($this->sortBy, $this->sortDirection)
-        ->paginate($this->perPage);
+        $query = Profession::query();
 
-        return view('livewire.admin.show-professions', compact('professions'))
+        if (!empty($this->selectedSkills)) {
+            // Filtrar por habilidades seleccionadas
+            $query->whereHas('skills', function ($q) {
+                $q->whereIn('name', $this->selectedSkills);
+            });
+        }
+        
+
+        $professions = $query
+            ->applyFilters([
+                'nameFilter' => $this->nameFilter,
+            ])
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate($this->perPage);
+
+        $skills = Skill::pluck('name');
+
+        return view('livewire.admin.show-professions', compact('professions', 'skills'))
             ->layout('layouts.admin');
     }
 }

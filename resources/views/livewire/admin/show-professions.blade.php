@@ -8,6 +8,35 @@
         </div>
     </x-slot>
 
+    <div>
+
+    <div>
+        <x-jet-input class="w-100" wire:model="nameFilter" type="text" placeholder="Filtrar por nombre" />
+        
+        <!-- Mostrar habilidades seleccionadas -->
+        <div class="mt-4">
+            @if(count($selectedSkills) > 0)
+                <span class="text-gray-500">Habilidades seleccionadas:</span>
+                @foreach($selectedSkills as $skill)
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $skill }}</span>
+                @endforeach
+            @endif
+        </div>
+        
+        <!-- Agregar un formulario para seleccionar habilidades -->
+        <div class="mt-4">
+            <label class="text-gray-500">Seleccionar habilidades:</label>
+            @foreach($skills as $skill)
+                <div class="inline-block mr-2">
+                    <input type="checkbox" wire:model="selectedSkills" value="{{ $skill }}">
+                    <label class="ml-1">{{ $skill }}</label>
+                </div>
+            @endforeach
+        </div>
+            
+    </div>
+    </div>
+
     <x-table-responsive>
         
 
