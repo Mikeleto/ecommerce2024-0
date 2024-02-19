@@ -53,72 +53,80 @@
                 <h1 class="text-2xl mb-4">Pedidos recientes</h1>
 
                 <ul>
-                    @foreach ($orders as $order)
-                        <li>
-                            <a href="{{ route('orders.show', $order) }}" class="flex items-center py-2 px-4 hover:bg-gray-100">
-                                <span class="w-12 text-center">
-                                    @switch($order->status)
-                                        @case(1)
-                                            <i class="fas fa-business-time text-red-500 opacity-50"></i>
-                                            @break
-                                        @case(2)
-                                            <i class="fas fa-credit-card text-gray-500 opacity-50"></i>
-                                            @break
-                                        @case(3)
-                                            <i class="fas fa-truck text-yellow-500 opacity-50"></i>
-                                            @break
-                                        @case(4)
-                                            <i class="fas fa-check-circle text-pink-500 opacity-50"></i>
-                                            @break
-                                        @case(5)
-                                            <i class="fas fa-times-circle text-green-500 opacity-50"></i>
-                                            @break
-                                        @default
-                                    @endswitch
-                                </span>
+    @foreach ($orders as $order)
+        <li>
+            <form action="{{ route('orders.destroy', $order->id) }}" method="post">
+                @csrf
+                @method('DELETE')
 
-                                <span>
-                                    Orden: {{ $order->id }}
-                                    <br>
-                                    {{ $order->created_at->format('d/m/Y') }}
-                                </span>
+                <a href="{{ route('orders.show', $order) }}" class="flex items-center py-2 px-4 hover:bg-gray-100">
+                    <span class="w-12 text-center">
+                        @switch($order->status)
+                            @case(1)
+                                <i class="fas fa-business-time text-red-500 opacity-50"></i>
+                                @break
+                            @case(2)
+                                <i class="fas fa-credit-card text-gray-500 opacity-50"></i>
+                                @break
+                            @case(3)
+                                <i class="fas fa-truck text-yellow-500 opacity-50"></i>
+                                @break
+                            @case(4)
+                                <i class="fas fa-check-circle text-pink-500 opacity-50"></i>
+                                @break
+                            @case(5)
+                                <i class="fas fa-times-circle text-green-500 opacity-50"></i>
+                                @break
+                            @default
+                        @endswitch
+                    </span>
 
-                                <div class="ml-auto">
-                                    <span class="font-bold">
-                                        @switch($order->status)
-                                            @case(1)
-                                                Pendiente
-                                                @break
-                                            @case(2)
-                                                Recibido
-                                                @break
-                                            @case(3)
-                                                Enviado
-                                                @break
-                                            @case(4)
-                                                Entregado
-                                                @break
-                                            @case(5)
-                                                Anulado
-                                                @break
-                                            @default
-                                        @endswitch
-                                    </span>
+                    <span>
+                        Orden: {{ $order->id }}
+                        <br>
+                        {{ $order->created_at->format('d/m/Y') }}
+                    </span>
 
-                                    <br>
+                    <div class="ml-auto">
+                        <span class="font-bold">
+                            @switch($order->status)
+                                @case(1)
+                                    Pendiente
+                                    @break
+                                @case(2)
+                                    Recibido
+                                    @break
+                                @case(3)
+                                    Enviado
+                                    @break
+                                @case(4)
+                                    Entregado
+                                    @break
+                                @case(5)
+                                    Anulado
+                                    @break
+                                @default
+                            @endswitch
+                        </span>
 
-                                    <span class="text-sm">
-                                        {{$order->total}} &euro;
-                                    </span>
-                                </div>
+                        <br>
 
-                                <span>
-                                    <i class="fas fa-angle-right ml-6"></i>
-                                </span>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                        <span class="text-sm">
+                            {{$order->total}} &euro;
+                        </span>
+                    </div>
+
+                    <span>
+                        <button type="submit" class="text-red-500 hover:underline ml-6" onclick="return confirm('¿Estás seguro de que deseas eliminar este pedido?')">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </span>
+                </a>
+            </form>
+        </li>
+    @endforeach
+</ul>
+                
             </section>
         @else
             <div class="bg-white shadow-lg rounded-lg px-12 py-8 mt-12 text-gray-700">

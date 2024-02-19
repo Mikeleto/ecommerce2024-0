@@ -33,4 +33,16 @@ class OrderController extends Controller
 
         return view('orders.show', compact('order', 'items', 'envio'));
     }
+
+    public function destroy(Order $order)
+{
+    $this->authorize('delete', $order); 
+
+    try {
+        $order->delete();
+        return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+    } catch (\Exception $e) {
+        return redirect()->route('orders.index')->with('error', 'Error deleting order.');
+    }
+}
 }
