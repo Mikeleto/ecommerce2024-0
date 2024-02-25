@@ -22,6 +22,10 @@
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "32.0.0",
+        "@fortawesome/fontawesome-svg-core": "^6.5.1",
+        "@fortawesome/free-brands-svg-icons": "^6.5.1",
+        "@fortawesome/free-regular-svg-icons": "^6.5.1",
+        "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "ckeditor": "^4.12.1",
         "dropzone": "^6.0.0-beta.2",
         "flexslider": "^2.7.2",

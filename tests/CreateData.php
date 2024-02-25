@@ -1,84 +1,86 @@
 <?php
 
-namespace App;
+namespace Tests;
 
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\City;
-use App\Models\Color;
-use App\Models\Department;
-use App\Models\District;
-use App\Models\Image;
-use App\Models\Order;
-use App\Models\Product;
 use App\Models\Size;
+use App\Models\Brand;
+use App\Models\Color;
+use App\Models\Image;
+use App\Models\Product;
+use App\Models\Category;
 use App\Models\Subcategory;
-use App\Models\User;
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Storage;
+
 
 trait CreateData
 {
-    use WithFaker;
 
-    public function createBrand($name)
+    public function createCategory()
     {
-        return Brand::create(['name' => $name]);
+        return Category::factory()->create();
     }
 
-    public function createCategory($name, $slug, $image = null, $icon = null)
+    public function createSubcategory($category, $color = false, $size = false)
     {
-        return Category::create([
-            'name' => $name,
-            'slug' => $slug,
-            'image' => $image,
-            'icon' => $icon,
+        return Subcategory::factory()->create([
+            'category_id' => $category->id,
+            'color' => $color,
+            'size' => $size
         ]);
     }
 
-    public function createColor($name)
+    public function createBrand($category)
     {
-        return Color::create(['name' => $name]);
+        $brand = Brand::factory()->create();
+        $category->brands()->attach($brand->id);
+        return $brand;
     }
 
-    public function createColorProduct($productId, $colorId, $quantity)
+    public function createColor()
     {
-        return ColorProduct::create([
-            'product_id' => $productId,
-            'color_id' => $colorId,
+        return Color::factory()->create();
+    }
+
+    public function createSize($product)
+    {
+        return Size::factory()->create([
+            'product_id' => $product->id
+        ]);
+    }
+
+    public function createProduct($color = false, $size = false, $quantity = 5, $price = 20, $category_id = null,  $numImages = 1)
+    {
+        $category = $this->createCategory();
+
+        if($category_id){
+            $category->id = $category_id;
+        }
+
+        $subcategory = $this->createSubcategory($category, $color, $size);
+
+        $brand = $this->createBrand($category);
+
+        $product = Product::factory()->create([
+            'subcategory_id' => $subcategory->id,
+            'brand_id' => $brand->id,
             'quantity' => $quantity,
+            'price' => $price
         ]);
-    }
 
-    public function createColorSize($colorId, $sizeId)
-    {
-        return ColorSize::create(['color_id' => $colorId, 'size_id' => $sizeId]);
-    }
-
-    public function createProduct($name, $brandId, $categoryId, $quantity = 0)
-    {
-        return Product::create([
-            'name' => $name,
-            'brand_id' => $brandId,
-            'category_id' => $categoryId,
-            'quantity' => $quantity,
+        Image::factory($numImages)->create([
+            'imageable_id' => $product->id,
+            'imageable_type' => Product::class
         ]);
-    }
 
-    public function createSize($name, $productId)
-    {
-        return Size::create(['name' => $name, 'product_id' => $productId]);
+        if ($size && $color) {
+            $product->quantity = null;
+            $productColor = $this->createColor();
+            $productSize = $this->createSize($product);
+            $productSize->colors()->attach($productColor->id, ['quantity' => $quantity]);
+        } elseif ($color && !$size) {
+            $product->quantity = null;
+            $productColor = $this->createColor();
+            $product->colors()->attach($productColor->id, ['quantity' => $quantity]);
+        }
+        return $product;
     }
-
-    public function createSubcategory($name, $slug, $categoryId)
-    {
-        return Subcategory::create(['name' => $name, 'slug' => $slug, 'category_id' => $categoryId]);
-    }
-
-    public function createOrder($productId, $quantity)
-    {
-        return Order::create(['product_id' => $productId, 'quantity' => $quantity]);
-    }
-
 }

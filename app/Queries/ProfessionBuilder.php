@@ -6,6 +6,6 @@ class ProfessionBuilder extends QueryBuilder
 {
  public function nameFilter($nameFilter){
         $this->where('title', 'LIKE', "%{$nameFilter}%")
-        ->orWhere('sector', 'LIKE', "%{$nameFilter}%");;
+        ->orWhere('sector', 'LIKE', "%{$nameFilter}%");
     }
 }

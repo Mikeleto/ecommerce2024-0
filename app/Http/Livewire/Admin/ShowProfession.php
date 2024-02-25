@@ -38,8 +38,7 @@ class ShowProfession extends Component
     {
         $query = Profession::query();
 
-        if (!empty($this->selectedSkills)) {
-            // Filtrar por habilidades seleccionadas
+        if ($this->selectedSkills) {
             $query->whereHas('skills', function ($q) {
                 $q->whereIn('name', $this->selectedSkills);
             });

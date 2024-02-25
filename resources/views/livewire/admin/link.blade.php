@@ -189,12 +189,18 @@
                                 {{ $product->brand->name }}
                             </td>
                             @if($c)
-            <td>
-                @foreach($product->colors as $color)
-                <div class="text-sm text-gray-900"> {{ $color->name }}</div>
-                   
-                @endforeach
-            </td>
+                            <td>
+                                            @if($product->colors)
+                                                @foreach($product->colors as $color)
+                                                <div class="text-sm text-gray-900">{{ $color->name }}</div>
+                                            @endforeach
+                                            @endif
+                                            @if($product->sizes)
+                                                @foreach($product->colors as $color)
+                                                <div class="text-sm text-gray-900">{{ $color->name }}</div>
+                                            @endforeach
+                                            @endif
+                                            </td>
         @endif
         @if($product->colors->isNotEmpty())
         @if($s)
@@ -205,7 +211,7 @@
             </td>
         @endif
         @endif
-        @if($product->sizes->isNotEmpty())
+        @if($product->sizes)
             <td>
                 @foreach($product->sizes as $size)
                     {{ $size->name }}

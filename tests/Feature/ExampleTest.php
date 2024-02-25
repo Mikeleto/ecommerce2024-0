@@ -4,11 +4,11 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tests\Traits\CreateData;
+
 
 class ExampleTest extends TestCase
 {
-    use RefreshDatabase, CreateData;
+    use RefreshDatabase;
 
     /**
      * A basic test example.

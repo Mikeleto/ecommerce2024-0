@@ -1,5 +1,7 @@
 <?php
+
 namespace Database\Factories;
+
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Profession;
@@ -24,9 +26,14 @@ class ProfessionFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Profession $profession) {
-            // Generar entre 0 y 3 habilidades
-            $skills = Skill::inRandomOrder()->limit(rand(0, 3))->get();
-            $profession->skills()->attach($skills);
+            $numSkills = rand(0, 3);
+            if ($numSkills > 0) {
+                $skills = Skill::inRandomOrder()->limit($numSkills)->get();
+    
+                // Utilizar createMany() para asociar múltiples habilidades a la profesión
+                $profession->skills()->createMany($skills->pluck('attributes')->toArray());
+            }
         });
     }
+    
 }

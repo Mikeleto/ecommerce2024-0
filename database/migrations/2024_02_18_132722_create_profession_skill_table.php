@@ -12,7 +12,7 @@ class CreateProfessionSkillTable extends Migration
             $table->id();
             $table->foreignId('profession_id')->constrained();
             $table->foreignId('skill_id')->constrained();
-            // Puedes agregar más columnas según tus necesidades
+   
             $table->timestamps();
         });
     }

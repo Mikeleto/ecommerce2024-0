@@ -259,12 +259,13 @@
                         </td>
                         @endif
                         @if($colors)
-                        @if($product->colors->isNotEmpty())
-                        <td class="px-6 py-4 whitespace-nowrap">
-                        @foreach($color as $c)
-                        <div class="text-sm text-gray-900">{{ $c->name }}</div>
-                        @endforeach
-                        </td>
+                        <td>
+                                            @if($product->colors)
+                                                @foreach($product->colors as $color)
+                                                <div class="text-sm text-gray-900">{{ $color->name }}</div>
+                                            @endforeach
+                                            @endif
+                                            </td>
                         @endif
                         @if($stockColor)
                         <td class="px-6 py-4 whitespace-nowrap">

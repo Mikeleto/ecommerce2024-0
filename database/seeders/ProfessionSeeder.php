@@ -14,7 +14,8 @@ class ProfessionSeeder extends Seeder
      */
     public function run()
     {
-        // Crear las profesiones existentes
+        
+      
         $professions = [
             [
                 'title' => 'Desarrollador back-end',
@@ -37,14 +38,14 @@ class ProfessionSeeder extends Seeder
                 'sector' => 'Salud',
                 'experience_required' => 5,
             ],
-            // ... otras profesiones existentes ...
+         
         ];
 
         foreach ($professions as $profession) {
             Profession::create($profession);
         }
 
-        // Crear 100 nuevas profesiones utilizando el factory
+       
         Profession::factory(100)->create();
     }
 }

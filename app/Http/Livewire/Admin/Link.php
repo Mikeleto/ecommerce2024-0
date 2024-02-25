@@ -35,7 +35,7 @@ class Link extends Component
 
     public $selectedCategory;
 
-    public $selectedBrand;
+    public $selectedBrand = [];
 
     public function sortBy($field){
         if($this->sortField === $field){
@@ -87,13 +87,13 @@ class Link extends Component
         });
         }
 
-        if (!is_null($this->selectedCategory)) {
+        if ($this->selectedCategory) {
             $query->whereHas('subcategory.category', function($q) {
                 $q->where('id', $this->selectedCategory);
             });
         }
 
-        if (!is_null($this->selectedBrand)) {
+        if ($this->selectedBrand) {
             $query->whereHas('brand', function($q) {
                 $q->where('id', $this->selectedBrand);
             });
@@ -142,7 +142,7 @@ class Link extends Component
         $colorSize = ColorSize::all();
         $colorProduct = ColorProduct::all();
         $sizes = Size::all();
-
+        
         
 
 
